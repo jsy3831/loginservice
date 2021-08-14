@@ -1,0 +1,9 @@
+package com.sns.untitled.user.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface UserMapper {
+
+    void insertName(String name);
+}
