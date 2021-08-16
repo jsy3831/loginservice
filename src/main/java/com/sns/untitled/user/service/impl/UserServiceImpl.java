@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String hello(String name) {
-        userMapper.insertName(name);
+//        userMapper.insertName(name);
         return "Hello " + name + " Success Insert";
     }
 }
