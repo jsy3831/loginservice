@@ -9,7 +9,7 @@ import java.util.Date;
 @Setter
 public class User {
 
-    private int UserId;
+    private int userId;
 
     private String id;
 
