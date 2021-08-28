@@ -1,9 +1,9 @@
-package com.sns.untitled.user.dto;
+package com.photobook.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class UserDto {
 
     private String email;
 
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     private String profileImageName;
 

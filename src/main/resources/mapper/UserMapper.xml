@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.sns.untitled.user.mapper.UserMapper">
+<mapper namespace="com.photobook.user.mapper.UserMapper">
 
-    <resultMap id="userDto" type="com.sns.untitled.user.dto.UserDto">
+    <resultMap id="userDto" type="com.photobook.user.dto.UserDto">
         <result property="userId" column="user_id"/>
         <result property="id" column="id"/>
         <result property="password" column="password"/>
@@ -15,15 +15,15 @@
         <result property="profileMessage" column="profile_message"/>
     </resultMap>
 
-    <select id="findUserByIdAndPassword" resultMap="userDto">
-        SELECT *
+    <select id="getUserInfoByIdAndPassword" resultMap="userDto">
+        SELECT user_id, id, password, name, email, birth, profile_image_name, profile_image_path, profile_message
         FROM user
         WHERE id = #{id}
         AND password = #{password}
     </select>
 
-    <select id="findUserById" resultMap="userDto">
-        SELECT *
+    <select id="getUserInfoById" resultMap="userDto">
+        SELECT user_id, id, password, name, email, birth, profile_image_name, profile_image_path, profile_message
         FROM user
         WHERE id = #{id}
     </select>

@@ -1,4 +1,4 @@
-package com.sns.untitled.config;
+package com.photobook.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.sns.untitled.*.mapper")
+@MapperScan(basePackages = "com.photobook.*.mapper")
 public class MyBatisConfig {
 
     @Bean
