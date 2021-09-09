@@ -10,6 +10,11 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class ExceptionAdvice {
 
+    @ExceptionHandler(Exception.class)
+    public String exception(Exception e) {
+        return e.getMessage();
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String illegalArgumentException(IllegalArgumentException e) {

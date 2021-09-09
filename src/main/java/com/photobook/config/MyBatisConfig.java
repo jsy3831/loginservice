@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.photobook.*.mapper")
+@MapperScan(basePackages = "com.photobook.mapper")
 public class MyBatisConfig {
 
     @Bean

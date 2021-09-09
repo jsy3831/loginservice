@@ -1,7 +1,7 @@
-package com.photobook.user.service.impl;
+package com.photobook.service.impl;
 
-import com.photobook.user.mapper.UserMapper;
-import com.photobook.user.dto.UserDto;
+import com.photobook.mapper.UserMapper;
+import com.photobook.dto.UserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,14 +59,11 @@ class UserServiceImplTest {
         //given
         when(userMapper.getUserInfoByIdAndPassword("notExistId", "notExistPassword")).thenReturn(null);
 
-        //when
-        IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> {
-                    userServiceImpl.getUserInfoByIdAndPassword("notExistId", "notExistPassword");
-                });
-
         //then
-        assertEquals("아이디 또는 비밀번호가 잘못 입력 되었습니다.", exception.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> {
+            //when
+            userServiceImpl.getUserInfoByIdAndPassword("notExistId", "notExistPassword");
+        });
 
     }
 }

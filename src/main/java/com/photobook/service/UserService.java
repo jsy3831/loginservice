@@ -1,6 +1,6 @@
-package com.photobook.user.service;
+package com.photobook.service;
 
-import com.photobook.user.dto.UserDto;
+import com.photobook.dto.UserDto;
 
 public interface UserService {
 

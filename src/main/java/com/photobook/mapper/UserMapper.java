@@ -1,6 +1,6 @@
-package com.photobook.user.mapper;
+package com.photobook.mapper;
 
-import com.photobook.user.dto.UserDto;
+import com.photobook.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

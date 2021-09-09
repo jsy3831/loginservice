@@ -1,4 +1,4 @@
-package com.photobook.user.dto;
+package com.photobook.dto;
 
 import lombok.Getter;
 import lombok.Setter;

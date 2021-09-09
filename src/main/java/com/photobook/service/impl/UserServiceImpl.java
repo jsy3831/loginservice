@@ -1,9 +1,10 @@
-package com.photobook.user.service.impl;
+package com.photobook.service.impl;
 
-import com.photobook.user.mapper.UserMapper;
-import com.photobook.user.dto.UserDto;
-import com.photobook.user.service.UserService;
+import com.photobook.mapper.UserMapper;
+import com.photobook.dto.UserDto;
+import com.photobook.service.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,9 +20,7 @@ public class UserServiceImpl implements UserService {
 
         UserDto userInfo = userMapper.getUserInfoByIdAndPassword(id, password);
 
-        if(userInfo == null) {
-            throw new IllegalArgumentException("아이디 또는 비밀번호가 잘못 입력 되었습니다.");
-        }
+        Assert.notNull(userInfo, "아이디 또는 비밀번호가 잘못 입력 되었습니다.");
 
         return userInfo;
     }

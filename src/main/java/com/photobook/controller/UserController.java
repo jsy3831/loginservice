@@ -1,13 +1,12 @@
-package com.photobook.user.controller;
+package com.photobook.controller;
 
 import com.photobook.annotation.LoginCheck;
-import com.photobook.user.dto.UserDto;
-import com.photobook.user.service.LoginService;
-import com.photobook.user.service.UserService;
+import com.photobook.dto.UserDto;
+import com.photobook.service.LoginService;
+import com.photobook.service.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -25,16 +24,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password, HttpSession httpSession) {
+    public void login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password) {
         UserDto userInfo = userService.getUserInfoByIdAndPassword(id, password);
 
-        loginService.setLoginUserInfo(httpSession, userInfo);
+        loginService.setLoginUserInfo(userInfo);
     }
 
     @PostMapping("/logout")
     @LoginCheck
-    public void logout(HttpSession httpSession) {
-        loginService.removeLoginUserInfo(httpSession);
+    public void logout() {
+        loginService.removeLoginUserInfo();
     }
 
     @GetMapping("/{id}")
