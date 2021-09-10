@@ -1,6 +1,7 @@
 package com.photobook.controller;
 
 import com.photobook.annotation.LoginCheck;
+import com.photobook.annotation.LoginCheckAndReturnUserInfo;
 import com.photobook.dto.UserDto;
 import com.photobook.exception.DuplicateException;
 import com.photobook.service.LoginService;
@@ -43,12 +44,14 @@ public class UserController {
     }
 
     @GetMapping("/myInfo")
-    @LoginCheck
-    public UserDto getUserInfoById() {
-        String id = loginService.getLoginUserInfo().getId();
+    @LoginCheckAndReturnUserInfo
+    public UserDto getUserInfoById(@ModelAttribute UserDto userDto) {
+
+        String id = userDto.getId();
 
         UserDto userInfo = userService.getUserInfoById(id);
 
         return userInfo;
     }
+
 }
