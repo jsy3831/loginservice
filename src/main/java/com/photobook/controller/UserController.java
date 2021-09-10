@@ -2,6 +2,7 @@ package com.photobook.controller;
 
 import com.photobook.annotation.LoginCheck;
 import com.photobook.dto.UserDto;
+import com.photobook.exception.DuplicateException;
 import com.photobook.service.LoginService;
 import com.photobook.service.UserService;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +26,11 @@ public class UserController {
 
     @PostMapping("/login")
     public void login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password) {
+
+        if(loginService.getLoginUserInfo() != null) {
+            throw new DuplicateException("이미 로그인된 상태입니다.");
+        }
+
         UserDto userInfo = userService.getUserInfoByIdAndPassword(id, password);
 
         loginService.setLoginUserInfo(userInfo);
@@ -36,10 +42,13 @@ public class UserController {
         loginService.removeLoginUserInfo();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/myInfo")
     @LoginCheck
-    public UserDto getUserInfoById(@PathVariable @NotBlank String id) {
+    public UserDto getUserInfoById() {
+        String id = loginService.getLoginUserInfo().getId();
+
         UserDto userInfo = userService.getUserInfoById(id);
+
         return userInfo;
     }
 }

@@ -11,25 +11,31 @@ import javax.validation.ConstraintViolationException;
 public class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
-    public String exception(Exception e) {
+    public String handleException(Exception e) {
         return e.getMessage();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String illegalArgumentException(IllegalArgumentException e) {
+    public String handleIllegalArgumentException(IllegalArgumentException e) {
         return e.getMessage();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String constraintViolationException(ConstraintViolationException e) {
+    public String handleConstraintViolationException(ConstraintViolationException e) {
         return e.getMessage();
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String unauthorizedException(UnauthorizedException e) {
+    public String handleUnauthorizedException(UnauthorizedException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(DuplicateException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleDuplicateException(DuplicateException e) {
         return e.getMessage();
     }
 
