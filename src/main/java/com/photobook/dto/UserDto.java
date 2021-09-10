@@ -1,13 +1,13 @@
-package com.sns.untitled.user.model;
+package com.photobook.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-public class User {
+public class UserDto {
 
     private int userId;
 
@@ -19,10 +19,12 @@ public class User {
 
     private String email;
 
-    private Date birth;
+    private LocalDate birth;
 
     private String profileImageName;
+
     private String profileImagePath;
+
     private String profileMessage;
 
 }
