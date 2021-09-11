@@ -1,6 +1,7 @@
 package com.photobook.aop;
 
-import com.photobook.exception.UnauthorizedException;
+import com.photobook.exception.CustomException;
+import com.photobook.exception.ErrorCode;
 import com.photobook.dto.UserDto;
 import com.photobook.service.LoginService;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -25,7 +26,7 @@ public class AuthCheckAspect {
         UserDto userInfo = loginService.getLoginUserInfo();
 
         if(userInfo == null) {
-            throw new UnauthorizedException("로그인된 사용자 정보가 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_LOGIN);
         }
 
         return userInfo;
