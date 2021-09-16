@@ -1,17 +1,16 @@
 package com.photobook.controller;
 
 import com.photobook.annotation.LoginCheck;
-import com.photobook.annotation.LoginCheckAndReturnUserInfo;
+import com.photobook.annotation.LoginUser;
+import com.photobook.controller.response.Response;
 import com.photobook.dto.UserDto;
-import com.photobook.exception.CustomException;
-import com.photobook.exception.ErrorCode;
+import com.photobook.exception.customException.DuplicatedException;
 import com.photobook.service.LoginService;
 import com.photobook.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/users")
@@ -28,32 +27,34 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password) {
+    public Response<UserDto> login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password) {
 
         if(loginService.getLoginUserInfo() != null) {
-            throw new CustomException(ErrorCode.DUPLICATE_LOGIN);
+            throw new DuplicatedException("이미 로그인된 상태입니다.");
         }
 
         UserDto userInfo = userService.getUserInfoByIdAndPassword(id, password);
 
         loginService.setLoginUserInfo(userInfo);
+
+        return Response.toResponse(200, "로그인 하였습니다.", userInfo);
     }
 
     @PostMapping("/logout")
     @LoginCheck
-    public void logout() {
+    public Response<UserDto> logout() {
         loginService.removeLoginUserInfo();
+
+        return Response.toResponse(200, "로그아웃 하였습니다.");
     }
 
-    @GetMapping("/myInfo")
-    @LoginCheckAndReturnUserInfo
-    public ResponseEntity<UserDto> getUserInfoById(@ModelAttribute @NotNull UserDto userDto) {
-
-        String id = userDto.getId(); // Aspect에서 받아온 값
+    @GetMapping("/my-info")
+    @LoginCheck
+    public Response<UserDto> getUserInfoById(@LoginUser String id) {
 
         UserDto userInfo = userService.getUserInfoById(id);
 
-        return ResponseEntity.ok(userInfo);
+        return Response.toResponse(200, "회원정보 조회", userInfo);
     }
 
 }
