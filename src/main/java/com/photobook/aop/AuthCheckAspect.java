@@ -25,7 +25,6 @@ public class AuthCheckAspect {
         if(userInfo == null) {
             throw new UnauthorizedException("로그인된 사용자 정보가 존재하지 않습니다.");
         }
-
     }
 
 }

@@ -7,9 +7,11 @@ import com.photobook.dto.UserDto;
 import com.photobook.exception.customException.DuplicatedException;
 import com.photobook.service.LoginService;
 import com.photobook.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -27,13 +29,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Response<UserDto> login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password) {
+    public Response<UserDto> login(@RequestParam @NotBlank String id, @RequestParam @NotBlank String password,
+                                   @LoginUser UserDto loginUser) {
 
-        if(loginService.getLoginUserInfo() != null) {
+        if(loginUser != null) {
             throw new DuplicatedException("이미 로그인된 상태입니다.");
         }
 
-        UserDto userInfo = userService.getUserInfoByIdAndPassword(id, password);
+        UserDto userInfo = userService.validateLogin(id, password);
 
         loginService.setLoginUserInfo(userInfo);
 
@@ -42,7 +45,8 @@ public class UserController {
 
     @PostMapping("/logout")
     @LoginCheck
-    public Response<UserDto> logout() {
+    public Response logout() {
+
         loginService.removeLoginUserInfo();
 
         return Response.toResponse(200, "로그아웃 하였습니다.");
@@ -50,11 +54,40 @@ public class UserController {
 
     @GetMapping("/my-info")
     @LoginCheck
-    public Response<UserDto> getUserInfoById(@LoginUser String id) {
+    public Response<UserDto> getUserInfoById(@LoginUser UserDto loginUser) {
 
-        UserDto userInfo = userService.getUserInfoById(id);
+        UserDto userInfo = userService.getUserInfoById(loginUser.getId());
 
         return Response.toResponse(200, "회원정보 조회", userInfo);
+    }
+
+    @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Response signup(@RequestBody @Valid UserDto userInfo) {
+
+        userService.createUser(userInfo);
+
+        return Response.toResponse(201, "회원가입 하였습니다.");
+    }
+
+    @GetMapping("/{id}")
+    public Response checkUserId(@PathVariable @NotBlank String id) {
+
+        userService.validateUserId(id);
+
+        return Response.toResponse(200, "사용가능한 아이디입니다.");
+    }
+
+
+    @DeleteMapping("/my-info")
+    @LoginCheck
+    public Response deleteUser(@LoginUser UserDto loginUser) {
+
+        userService.deleteUser(loginUser.getId());
+
+        loginService.removeLoginUserInfo();
+
+        return Response.toResponse(200, "회원탈퇴 하였습니다.");
     }
 
 }
