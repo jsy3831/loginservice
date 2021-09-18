@@ -4,6 +4,7 @@ import com.photobook.exception.customException.DuplicatedException;
 import com.photobook.mapper.UserMapper;
 import com.photobook.dto.UserDto;
 import com.photobook.service.UserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value="findUserCache", key="#id")
     public UserDto getUserInfoById(String id) {
         UserDto userInfo = userMapper.getUserInfoById(id);
         return userInfo;
