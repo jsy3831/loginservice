@@ -1,4 +1,4 @@
-package com.photobook.exception;
+package com.photobook.exception.customException;
 
 public class UnauthorizedException extends RuntimeException {
 
