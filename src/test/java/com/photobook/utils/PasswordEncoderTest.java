@@ -22,6 +22,7 @@ class PasswordEncoderTest {
 
         //when
         String encodedPwd = passwordEncoder.encode(rawPwd);
+        System.out.println(encodedPwd);
 
         //then
         assertAll(
