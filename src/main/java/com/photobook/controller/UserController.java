@@ -89,9 +89,9 @@ public class UserController {
 
 	@DeleteMapping("/my-info")
 	@LoginCheck
-	public Response deleteUser(@LoginUser UserDto loginUser) {
+	public Response deleteUser(@RequestParam @NotBlank String password, @LoginUser UserDto loginUser) {
 
-		userService.deleteUser(loginUser.getId());
+		userService.deleteUser(loginUser, password);
 
 		loginService.removeLoginUserInfo();
 

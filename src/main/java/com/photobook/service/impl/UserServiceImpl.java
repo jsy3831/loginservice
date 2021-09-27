@@ -1,5 +1,7 @@
 package com.photobook.service.impl;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -64,7 +66,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(String id) {
-		userMapper.deleteUser(id);
+	@CacheEvict(value = "findUserCache", key = "#userInfo.getId()")
+	public void deleteUser(UserDto userInfo, String password) {
+
+		boolean isPwdMatch = passwordEncoder.matches(password, userInfo.getPassword());
+
+		if (!isPwdMatch) {
+			throw new BadCredentialsException("일치하지않는 비밀번호입니다.");
+		}
+
+		userMapper.deleteUser(userInfo.getId());
 	}
 }

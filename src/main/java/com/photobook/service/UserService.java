@@ -12,5 +12,5 @@ public interface UserService {
 
 	void validateUserId(String id);
 
-	void deleteUser(String id);
+	void deleteUser(UserDto userInfo, String password);
 }
