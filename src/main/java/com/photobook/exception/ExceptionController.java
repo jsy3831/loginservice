@@ -24,67 +24,56 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class ExceptionController {
 
-	private static ExceptionType exceptionType(Exception e) {
-		return new ExceptionType(e.getClass().getSimpleName());
-	}
-
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Response<ExceptionType> handleException(Exception e) {
+	public Response handleException(Exception e) {
 		log.error("handleException throw Exception : {}", e.getMessage());
-		return Response.toResponse(400, e.getMessage(), exceptionType(e));
+		return new Response(e.getMessage());
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Response<ExceptionType> handleConstraintViolationException(ConstraintViolationException e) {
+	public Response handleConstraintViolationException(ConstraintViolationException e) {
 		log.error("handleConstraintViolationException throw ConstraintViolationException : {}", e.getMessage());
-		return Response.toResponse(400, e.getMessage(), exceptionType(e));
+		return new Response(e.getMessage());
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Response<ExceptionType> handleIllegalArgumentException(IllegalArgumentException e) {
+	public Response handleIllegalArgumentException(IllegalArgumentException e) {
 		log.error("handleIllegalArgumentException throw IllegalArgumentException : {}", e.getMessage());
-		return Response.toResponse(400, e.getMessage(), exceptionType(e));
+		return new Response(e.getMessage());
 	}
 
 	@ExceptionHandler(UnauthorizedException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public Response<ExceptionType> handleUnauthorizedException(UnauthorizedException e) {
-		return Response.toResponse(401, e.getMessage(), exceptionType(e));
+	public Response handleUnauthorizedException(UnauthorizedException e) {
+		return new Response(e.getMessage());
 	}
 
 	@ExceptionHandler(DuplicatedException.class)
 	@ResponseStatus(HttpStatus.CONFLICT)
-	public Response<ExceptionType> handleDuplicatedException(DuplicatedException e) {
-		return Response.toResponse(409, e.getMessage(), exceptionType(e));
+	public Response handleDuplicatedException(DuplicatedException e) {
+		return new Response(e.getMessage());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Response<ExceptionType> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+	public Response handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
 		BindingResult bindingResult = e.getBindingResult();
-		List<StringBuilder> message = new ArrayList<>();
+		List<String> message = new ArrayList<>();
 
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
-			StringBuilder builder = new StringBuilder();
-
-			builder.append(fieldError.getField());
-			builder.append(" : ");
-			builder.append(fieldError.getDefaultMessage());
-
-			message.add(builder);
+			message.add(fieldError.getDefaultMessage());
 		}
 
-		return Response.toResponse(400, message.toString(), exceptionType(e));
+		return new Response(message.toString());
 	}
 
 	@ExceptionHandler(AuthenticationException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public Response<ExceptionType> handleAuthenticationException(AuthenticationException e) {
-		return Response.toResponse(403, e.getMessage(), exceptionType(e));
+	public Response handleAuthenticationException(AuthenticationException e) {
+		return new Response(e.getMessage());
 	}
-
 }
