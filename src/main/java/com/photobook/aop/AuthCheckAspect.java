@@ -1,7 +1,7 @@
 package com.photobook.aop;
 
-import com.photobook.exception.UnauthorizedException;
 import com.photobook.dto.UserDto;
+import com.photobook.exception.customException.UnauthorizedException;
 import com.photobook.service.LoginService;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

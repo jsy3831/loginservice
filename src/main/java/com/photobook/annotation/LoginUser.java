@@ -3,7 +3,7 @@ package com.photobook.annotation;
 import java.lang.annotation.*;
 
 @Documented
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LoginCheck {
+public @interface LoginUser {
 }

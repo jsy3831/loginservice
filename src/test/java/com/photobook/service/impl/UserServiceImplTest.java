@@ -8,6 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -24,11 +27,14 @@ class UserServiceImplTest {
     @Mock
     UserMapper userMapper;
 
+    @Mock
+    PasswordEncoder passwordEncoder;
+
     public UserDto userInfo() {
         UserDto userInfo = new UserDto();
         userInfo.setUserId(1);
         userInfo.setId("admin");
-        userInfo.setPassword("1234");
+        userInfo.setPassword(passwordEncoder.encode("1234"));
         userInfo.setName("관리자");
         userInfo.setEmail("admin@gmail.com");
         userInfo.setBirth(LocalDate.of(1993, 10, 28));
@@ -40,30 +46,47 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("사용자 정보가 존재하면 성공")
-    public void successGetUserInfoByIdAndPassword() {
+    @DisplayName("로그인 검증 성공")
+    public void successValidateLogin() {
         //given
         UserDto userInfo = userInfo();
-        when(userMapper.getUserInfoByIdAndPassword("admin", "1234")).thenReturn(userInfo);
+        when(userMapper.getUserInfoById("admin")).thenReturn(userInfo);
+        when(passwordEncoder.matches("1234", userInfo.getPassword())).thenReturn(true);
 
         //when
-        UserDto result = userServiceImpl.getUserInfoByIdAndPassword("admin", "1234");
+        UserDto result = userServiceImpl.validateLogin("admin", "1234");
 
         //then
         assertEquals(result, userInfo);
     }
 
     @Test
-    @DisplayName("사용자 정보가 존재하지 않으면 성공")
-    public void failureGetUserInfoByIdAndPassword() {
+    @DisplayName("로그인 검증 실패_존재하지 않는 아이디")
+    public void failureValidateLoginId() {
         //given
-        when(userMapper.getUserInfoByIdAndPassword("notExistId", "notExistPassword")).thenReturn(null);
+        when(userMapper.getUserInfoById("admin")).thenReturn(null);
 
         //then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(InternalAuthenticationServiceException.class, () -> {
             //when
-            userServiceImpl.getUserInfoByIdAndPassword("notExistId", "notExistPassword");
+            userServiceImpl.validateLogin("admin", "1234");
         });
 
     }
+
+    @Test
+    @DisplayName("로그인 검증 실패_비밀번호 불일치")
+    public void failureValidateLoginPwd() {
+        //given
+        UserDto userInfo = userInfo();
+        when(userMapper.getUserInfoById("admin")).thenReturn(userInfo);
+        when(passwordEncoder.matches("1234", userInfo.getPassword())).thenReturn(false);
+
+        //then
+        assertThrows(BadCredentialsException.class, () -> {
+            //when
+            userServiceImpl.validateLogin("admin", "1234");
+        });
+    }
+
 }
