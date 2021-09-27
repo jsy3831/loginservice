@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class ExceptionType {
 
-    private final String type;
+	private final String type;
 
-    ExceptionType(final String type) {
-        this.type = type;
-    }
+	ExceptionType(final String type) {
+		this.type = type;
+	}
 
 }
