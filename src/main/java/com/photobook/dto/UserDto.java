@@ -15,8 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserDto implements Serializable {
-
+public class UserDto {
 	private int userId;
 
 	@NotBlank(message = "아이디를 입력하세요.")
