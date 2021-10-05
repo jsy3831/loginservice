@@ -1,10 +1,10 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-<!--         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"-->
-<!--         updateCheck="false">-->
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false">
 
     <!-- 임시저장경로 지정 -->
-<!--    <diskStore path="java.io.tmpdir" />-->
+    <diskStore path="java.io.tmpdir" />
 
     <!--
             maxEntriesLocalHeap - 메모리에 생성될 객체의 최대 수(0: 제한없음)
@@ -20,16 +20,16 @@
                                         LFU : 사용량이 적은 것부터 제거
             persistence strategy - diskStore 사용 설정("localTempSwap": Temp DiskStore 사용, "none": Only Memory 사용)
     -->
-<!--    <cache name="findUserCache"-->
-<!--           maxEntriesLocalHeap="10000"-->
-<!--           maxEntriesLocalDisk="1000"-->
-<!--           eternal="false"-->
-<!--           diskSpoolBufferSizeMB="20"-->
-<!--           timeToIdleSeconds="300"-->
-<!--           timeToLiveSeconds="600"-->
-<!--           memoryStoreEvictionPolicy="LFU"-->
-<!--           transactionalMode="off">-->
-<!--        <persistence strategy="localTempSwap" />-->
-<!--    </cache>-->
+    <cache name="findUserCache"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap" />
+    </cache>
 
-<!--</ehcache>-->
+</ehcache>

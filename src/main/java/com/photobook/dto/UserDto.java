@@ -8,6 +8,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,6 +38,8 @@ public class UserDto {
 
 	@NotNull(message = "생년월일을 입력하세요.")
 	@Past(message = "날짜가 올바르지 않습니다.")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate birth;
 
 	private String profileImageName;
