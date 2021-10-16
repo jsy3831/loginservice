@@ -1,41 +1,45 @@
 package com.photobook.dto;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
 public class UserDto implements Serializable {
 
-    private int userId;
+	private int userId;
 
-    @NotBlank
-    private String id;
+	@NotBlank(message = "아이디를 입력하세요.")
+	private String id;
 
-    @NotBlank
-    private String password;
+	@NotBlank(message = "비밀번호를 입력하세요.")
+	private String password;
 
-    @NotBlank
-    private String name;
+	@NotBlank(message = "이름을 입력하세요.")
+	private String name;
 
-    @NotBlank
-    @Email
-    private String email;
+	@NotBlank(message = "이메일을 입력하세요.")
+	@Email(message = "이메일 형식이 올바르지 않습니다.")
+	private String email;
 
-    @NotNull
-    @Past
-    private LocalDate birth;
+	@NotNull(message = "생년월일을 입력하세요.")
+	@Past(message = "날짜가 올바르지 않습니다.")
+	private LocalDate birth;
 
-    private String profileImageName;
+	private String profileImageName;
 
-    private String profileImagePath;
+	private String profileImagePath;
 
-    private String profileMessage;
+	private String profileMessage;
 
 }

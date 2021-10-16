@@ -1,37 +1,24 @@
 package com.photobook.controller.response;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
+
+import lombok.Getter;
 
 @Getter
 public class Response<T> {
 
-    private final LocalDateTime timestamp = LocalDateTime.now();
+	private final LocalDateTime timestamp = LocalDateTime.now();
 
-    private final int code;
+	private String message;
 
-    private final String message;
+	private T body;
 
-    private final T body;
+	public Response(String message) {
+		this.message = message;
+	}
 
-    @Builder
-    Response(final int code, final String message, final T body) {
-        this.code = code;
-        this.message = message;
-        this.body = body;
-    }
-
-    public static <T> Response<T> toResponse(int code, String message) {
-        return toResponse(code, message, null);
-    }
-
-    public static <T> Response<T> toResponse(int code, String message, T body) {
-        return Response.<T>builder()
-                .code(code)
-                .message(message)
-                .body(body)
-                .build();
-    }
+	public Response(String message, T body) {
+		this.message = message;
+		this.body = body;
+	}
 }
