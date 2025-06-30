@@ -49,3 +49,9 @@ checkstyle {
     configFile = file("${rootDir}/naver-checkstyle-rules.xml")
     toolVersion ="9.0"
 }
+
+//bootJar{
+//    archivesBaseName = 'cache'
+//    archiveFileName = 'cache.jar'
+//    archiveVersion = "0.0.0"
+//}

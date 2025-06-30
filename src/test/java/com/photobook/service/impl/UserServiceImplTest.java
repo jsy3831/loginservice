@@ -35,8 +35,7 @@ class UserServiceImplTest {
 		UserDto userInfo = new UserDto();
 		userInfo.setUserId(1);
 		userInfo.setId("admin");
-		// userInfo.setPassword(passwordEncoder.encode("1234"));
-		userInfo.setPassword("1234");
+		userInfo.setPassword(passwordEncoder.encode("1234"));
 		userInfo.setName("관리자");
 		userInfo.setEmail("admin@gmail.com");
 		userInfo.setBirth(LocalDate.of(1993, 10, 28));
